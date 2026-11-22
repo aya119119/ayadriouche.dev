@@ -25,6 +25,11 @@
       --line: #292929;
       --highlight: #e8e8e8;
       --violet: #55446f;
+      --silver-bright: #e1e4e8;
+      --silver-metal: #aeb4be;
+      --steel-mid: #777f8b;
+      --steel-dark: #444b55;
+      --line-metal: rgba(174, 180, 190, 0.22);
       --sans: "Manrope", sans-serif;
       --display: "Space Grotesk", sans-serif;
       --serif: "Cormorant Garamond", Georgia, serif;
@@ -115,7 +120,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 var(--gutter);
-      border-bottom: 1px solid rgba(245, 245, 245, 0.08);
+      border-bottom: 1px solid var(--line-metal);
       background: rgba(8, 8, 8, 0.92);
       backdrop-filter: blur(16px);
     }
@@ -125,11 +130,12 @@
       font-size: 1.3rem;
       font-weight: 700;
       letter-spacing: -0.08em;
+      color: var(--silver-bright);
     }
 
     .wordmark span,
     .accent {
-      color: var(--secondary);
+      color: var(--silver-metal);
     }
 
     .site-nav {
@@ -156,7 +162,12 @@
 
     .nav-contact {
       padding: 0.65rem 0.9rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--line-metal);
+      transition: border-color 180ms ease, color 180ms ease;
+    }
+
+    .nav-contact:hover {
+      border-color: var(--silver-metal);
     }
 
     .menu-toggle {
@@ -236,10 +247,58 @@
 
     .hero-greeting {
       margin: 0 0 1rem;
-      color: var(--secondary);
+      color: var(--silver-metal);
       font-size: 0.73rem;
       font-weight: 700;
       letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .chrome-signature {
+      position: relative;
+      width: min(100%, 820px);
+      aspect-ratio: 2.45 / 1;
+      max-height: 340px;
+      margin: 0 0 0.75rem -0.04em;
+    }
+
+    #chrome-aya-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      touch-action: pan-y;
+    }
+
+    #chrome-aya-canvas:active {
+      cursor: grabbing;
+    }
+
+    .chrome-signature-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      color: var(--silver-bright);
+      font-family: var(--display);
+      font-size: clamp(5rem, 14vw, 12rem);
+      font-weight: 700;
+      letter-spacing: -0.09em;
+      line-height: 1;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+    }
+
+    .chrome-signature.is-ready .chrome-signature-fallback {
+      opacity: 0;
+    }
+
+    .chrome-hint {
+      display: block;
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
@@ -254,16 +313,17 @@
       max-width: 980px;
       margin-bottom: 1.5rem;
       font-family: var(--display);
-      font-size: clamp(3.4rem, 10.4vw, 10rem);
+      font-size: clamp(2.4rem, 5.4vw, 5rem);
       font-weight: 500;
-      letter-spacing: -0.095em;
-      line-height: 0.82;
+      letter-spacing: -0.075em;
+      line-height: 0.98;
+      color: var(--paper);
     }
 
     .hero h1 em {
       display: block;
       padding-left: 0.06em;
-      color: var(--secondary);
+      color: var(--silver-metal);
       font-family: var(--serif);
       font-weight: 400;
       letter-spacing: -0.055em;
@@ -284,7 +344,7 @@
       justify-content: flex-start;
       overflow: hidden;
       margin: 0;
-      border: 1px solid var(--line);
+      border: 1px solid var(--line-metal);
       background:
         radial-gradient(ellipse at 70% 22%, rgba(85, 68, 111, 0.16), transparent 55%),
         linear-gradient(150deg, #121212, #090909 70%);
@@ -346,17 +406,18 @@
     .marquee span {
       display: block;
       padding: 0.2em 0.14em 0.24em;
-      color: var(--paper);
+      color: var(--silver-bright);
       font-family: var(--display);
       font-size: clamp(3.2rem, 10vw, 9rem);
       font-weight: 600;
       letter-spacing: -0.08em;
       line-height: 1;
       white-space: nowrap;
+      color: var(--silver-bright);
     }
 
     .marquee i {
-      color: var(--muted);
+      color: var(--steel-mid);
       font-family: var(--serif);
       font-weight: 400;
     }
@@ -387,7 +448,22 @@
 
     .section {
       padding-block: clamp(5.5rem, 12vw, 11rem);
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--line-metal);
+    }
+
+    #universe {
+      position: relative;
+      border-top-color: transparent;
+    }
+
+    #universe::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--steel-dark) 18%, var(--silver-metal) 50%, var(--steel-dark) 82%, transparent);
+      content: "";
     }
 
     .section-heading {
@@ -415,6 +491,80 @@
     .serif {
       font-family: var(--serif);
       font-weight: 400;
+    }
+
+    .tulips-interlude {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      min-height: 520px;
+      overflow: hidden;
+      background: #080808;
+      isolation: isolate;
+    }
+
+    .tulips-interlude.is-fallback {
+      background:
+        linear-gradient(90deg, rgba(8, 8, 8, 0.92), rgba(8, 8, 8, 0.52)),
+        #080808;
+    }
+
+    .tulips-interlude video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 58%;
+      opacity: 0.82;
+    }
+
+    .tulips-interlude::before {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(8, 8, 8, 0.26) 0%, rgba(8, 8, 8, 0.04) 38%, rgba(8, 8, 8, 0.34) 100%);
+      content: "";
+      pointer-events: none;
+    }
+
+    .tulips-interlude::after {
+      position: absolute;
+      z-index: 2;
+      right: var(--gutter);
+      bottom: clamp(1.25rem, 4vw, 3.5rem);
+      left: var(--gutter);
+      height: 1px;
+      background: rgba(245, 245, 245, 0.32);
+      content: "";
+      pointer-events: none;
+    }
+
+    .tulips-meta {
+      position: absolute;
+      z-index: 3;
+      right: var(--gutter);
+      bottom: clamp(2.1rem, 5vw, 4.5rem);
+      left: var(--gutter);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      color: rgba(245, 245, 245, 0.92);
+    }
+
+    .tulips-meta span {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .tulips-meta span:last-child {
+      color: rgba(245, 245, 245, 0.68);
+      text-align: right;
     }
 
     .about-grid {
@@ -477,7 +627,7 @@
       grid-template-columns: minmax(130px, 0.34fr) minmax(0, 1fr);
       gap: clamp(1.5rem, 6vw, 6rem);
       padding: clamp(2.5rem, 6vw, 5.5rem) 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--line-metal);
     }
 
     .timeline-meta {
@@ -530,7 +680,7 @@
     }
 
     .project-list {
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--line-metal);
     }
 
     .project {
@@ -539,7 +689,7 @@
       gap: clamp(1rem, 4vw, 4rem);
       align-items: center;
       padding: clamp(2rem, 5vw, 4.5rem) 0;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--line-metal);
     }
 
     .project:nth-child(even) .project-visual {
@@ -583,7 +733,7 @@
       min-height: 150px;
       align-content: space-between;
       padding: 0.8rem;
-      border: 1px dashed #353535;
+      border: 1px dashed rgba(174, 180, 190, 0.28);
       background:
         linear-gradient(135deg, transparent 49.8%, rgba(245, 245, 245, 0.05) 50%, transparent 50.2%),
         linear-gradient(45deg, transparent 49.8%, rgba(245, 245, 245, 0.05) 50%, transparent 50.2%),
@@ -592,7 +742,7 @@
     }
 
     .project:hover .project-visual {
-      border-color: #777;
+      border-color: var(--silver-bright);
       background-color: var(--surface-raised);
     }
 
@@ -604,6 +754,11 @@
       font-size: clamp(2rem, 5vw, 4rem);
       font-weight: 500;
       letter-spacing: -0.1em;
+      transition: color 220ms ease;
+    }
+
+    .project:hover .project-visual strong {
+      color: var(--silver-metal);
     }
 
     .project-visual .slot-label {
@@ -611,31 +766,215 @@
       font-size: 0.52rem;
     }
 
-    .skills-layout {
+    .toolkit-layout {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0 4rem;
+      grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.55fr);
+      gap: clamp(2.5rem, 7vw, 7rem);
+      align-items: start;
+    }
+
+    .toolkit-nav {
       border-top: 1px solid var(--line);
     }
 
-    .skill-group {
-      padding: 1.5rem 0;
+    .toolkit-intro {
+      max-width: 300px;
+      margin: 1.25rem 0 2.5rem;
+      color: var(--secondary);
+      font-size: 0.88rem;
+      line-height: 1.75;
+    }
+
+    .toolkit-category {
       border-bottom: 1px solid var(--line);
     }
 
-    .skill-group h3 {
-      margin-bottom: 1rem;
+    .toolkit-category-button {
+      display: grid;
+      width: 100%;
+      grid-template-columns: 0.7rem minmax(0, 1fr) auto;
+      gap: 0.85rem;
+      align-items: start;
+      padding: 1.15rem 0;
+      border: 0;
+      background: transparent;
+      color: var(--paper);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .toolkit-square {
+      width: 0.7rem;
+      height: 0.7rem;
+      margin-top: 0.28rem;
+      border: 1px solid var(--muted);
+      background: transparent;
+      transition: background-color 280ms ease, border-color 280ms ease;
+    }
+
+    .toolkit-category.is-active .toolkit-square {
+      border-color: var(--highlight);
+      background: var(--highlight);
+    }
+
+    .toolkit-category-label {
+      display: grid;
+      grid-template-columns: 2.15rem minmax(0, 1fr);
+      gap: 0.35rem;
+      font-family: var(--display);
+      font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+      line-height: 1.35;
+    }
+
+    .toolkit-category-label .toolkit-number {
+      color: var(--muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      line-height: 1.9;
+    }
+
+    .toolkit-toggle-mark {
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      line-height: 1;
+      transition: transform 300ms ease, color 300ms ease;
+    }
+
+    .toolkit-category.is-active .toolkit-toggle-mark {
+      color: var(--paper);
+      transform: rotate(45deg);
+    }
+
+    .toolkit-category-list {
+      display: none;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      padding: 0 0 1.25rem 3.7rem;
+      margin: 0;
+      list-style: none;
+    }
+
+    .toolkit-category.is-active .toolkit-category-list {
+      display: flex;
+    }
+
+    .toolkit-category-list li {
+      padding: 0.32rem 0.58rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
       color: var(--secondary);
-      font-size: 0.67rem;
-      letter-spacing: 0.14em;
+      font-family: var(--sans);
+      font-size: 0.58rem;
+      line-height: 1.2;
+    }
+
+    .toolkit-frame {
+      position: relative;
+      min-height: clamp(470px, 42vw, 610px);
+      overflow: hidden;
+      border: 1px solid #d7d2c4;
+      background-color: #eee9da;
+      background-image:
+        linear-gradient(rgba(37, 35, 29, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 35, 29, 0.09) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: #25231d;
+    }
+
+    .toolkit-constellation {
+      position: absolute;
+      inset: 0 0 74px;
+    }
+
+    .toolkit-node {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      top: 50%;
+      width: var(--node-size);
+      height: var(--node-size);
+      transform: translate(-50%, -50%);
+      transition:
+        left 950ms cubic-bezier(0.22, 1, 0.36, 1),
+        top 950ms cubic-bezier(0.22, 1, 0.36, 1),
+        width 950ms cubic-bezier(0.22, 1, 0.36, 1),
+        height 950ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: left, top;
+    }
+
+    .toolkit-node-core {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      border: 1px solid #777268;
+      border-radius: 50%;
+      background: #e4dfd0;
+      color: #37352f;
+      font-family: var(--display);
+      font-size: var(--node-font);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      text-align: center;
+      text-wrap: balance;
+      box-shadow: 0 0 0 5px rgba(238, 233, 218, 0.72);
+      animation: toolkitFloat var(--float-duration) ease-in-out var(--float-delay) infinite alternate;
+      transition:
+        background-color 500ms ease,
+        border-color 500ms ease,
+        color 500ms ease,
+        box-shadow 500ms ease;
+    }
+
+    .toolkit-node.is-selected .toolkit-node-core {
+      border-color: #bb5a31;
+      background: #d96f42;
+      color: #fff6e8;
+      box-shadow: 0 0 0 5px rgba(238, 233, 218, 0.82);
+    }
+
+    .toolkit-node.is-supporting .toolkit-node-core {
+      font-size: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    @keyframes toolkitFloat {
+      from {
+        transform: translate3d(0, -2px, 0);
+      }
+      to {
+        transform: translate3d(2px, 3px, 0);
+      }
+    }
+
+    .toolkit-frame-footer {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      min-height: 74px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 1.1rem;
+      border-top: 1px solid rgba(37, 35, 29, 0.18);
+      background: rgba(238, 233, 218, 0.94);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
     }
 
-    .skill-group p {
-      margin-bottom: 0;
-      color: var(--paper);
-      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-      line-height: 1.9;
+    .toolkit-figure {
+      max-width: 58%;
+    }
+
+    .toolkit-hint {
+      color: #777268;
+      text-align: right;
     }
 
     .community-list {
@@ -918,6 +1257,26 @@
         gap: 1.3rem;
       }
 
+      .tulips-interlude {
+        height: 78svh;
+        min-height: 430px;
+        max-height: 760px;
+      }
+
+      .tulips-interlude video {
+        object-position: center 50%;
+      }
+
+      .tulips-meta {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .tulips-meta span:last-child {
+        text-align: left;
+      }
+
       .portrait-slot {
         min-height: 220px;
       }
@@ -963,8 +1322,18 @@
         order: initial;
       }
 
-      .skills-layout {
-        gap: 0 1.5rem;
+      .toolkit-layout {
+        grid-template-columns: 1fr;
+        gap: 2.75rem;
+      }
+
+      .toolkit-intro {
+        max-width: 430px;
+        margin-bottom: 1.8rem;
+      }
+
+      .toolkit-frame {
+        min-height: 500px;
       }
 
       .community-list,
@@ -999,11 +1368,16 @@
       }
 
       .hero h1 {
-        font-size: clamp(3.5rem, 17vw, 5.5rem);
+        font-size: clamp(2.4rem, 10.5vw, 4rem);
       }
 
       .portrait-slot {
         min-height: 120px;
+      }
+
+      .tulips-interlude {
+        height: 72svh;
+        min-height: 390px;
       }
 
       .portrait-slot::before {
@@ -1018,8 +1392,26 @@
         width: 62%;
       }
 
-      .skills-layout {
-        grid-template-columns: 1fr;
+      .toolkit-frame {
+        min-height: 430px;
+      }
+
+      .toolkit-frame-footer {
+        min-height: 68px;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.25rem;
+        padding-inline: 0.8rem;
+      }
+
+      .toolkit-figure,
+      .toolkit-hint {
+        max-width: 100%;
+      }
+
+      .toolkit-hint {
+        text-align: left;
       }
 
       .project {
@@ -1057,6 +1449,7 @@
         opacity: 1;
         transform: none;
       }
+
     }
   </style>
 </head>
@@ -1069,6 +1462,7 @@
       <a href="#about" data-section="about">About</a>
       <a href="#experiences" data-section="experiences">Experiences</a>
       <a href="#projects" data-section="projects">Projects</a>
+      <a href="#toolkit" data-section="toolkit">Toolkit</a>
       <a href="#universe" data-section="universe">My universe</a>
       <a class="nav-contact" href="#contact" data-section="contact">Contact ↗</a>
     </nav>
@@ -1082,7 +1476,12 @@
       </div>
       <div class="hero-grid">
         <div class="hero-copy-block">
-          <p class="hero-greeting">Hi, I'm Aya.</p>
+          <p class="hero-greeting">Hi, I'm</p>
+          <div class="chrome-signature">
+            <canvas id="chrome-aya-canvas" width="640" height="260" tabindex="0" role="img" aria-label="AYA in liquid chrome, with studio reflections that respond to pointer movement." aria-describedby="chrome-aya-hint"></canvas>
+            <span class="chrome-signature-fallback" aria-hidden="true">AYA</span>
+          </div>
+          <span class="chrome-hint" id="chrome-aya-hint">Move your pointer to shift the studio reflections</span>
           <h1 id="hero-title">A little universe <em>of curiosity.</em></h1>
           <p class="hero-copy">Somewhere between technology, creativity and the universe. Building things, asking questions, discovering what’s next.</p>
         </div>
@@ -1236,19 +1635,39 @@
       </div>
     </section>
 
-    <section class="section wrap" id="skills" aria-labelledby="skills-title">
-      <div class="section-heading reveal">
-        <span class="section-index">04 / A working toolkit</span>
-        <h2 id="skills-title">Things I work <em>with.</em></h2>
+    <section class="section wrap" id="toolkit" aria-labelledby="toolkit-title">
+      <div class="toolkit-layout reveal">
+        <aside class="toolkit-nav" aria-label="Toolkit categories">
+          <span class="section-index">04 / Toolkit</span>
+          <h2 id="toolkit-title" style="margin: 1.4rem 0 0; font-family: var(--display); font-size: clamp(3.2rem, 7vw, 6.5rem); font-weight: 500; letter-spacing: -0.08em; line-height: 0.9;">Toolkit.</h2>
+          <p class="toolkit-intro">A constellation of the languages, frameworks and tools I use to turn technical questions into working systems.</p>
+          <div id="toolkit-category-list"></div>
+        </aside>
+        <div class="toolkit-frame" role="group" aria-label="Interactive technology constellation">
+          <div class="toolkit-constellation" id="toolkit-constellation" aria-label="Technology circles"></div>
+          <footer class="toolkit-frame-footer">
+            <span class="toolkit-figure" id="toolkit-figure">FIG. 03.A — TOOLKIT — AI &amp; MACHINE LEARNING</span>
+            <span class="toolkit-hint">SELECT A CATEGORY · EXPLORE THE CONSTELLATION</span>
+          </footer>
+        </div>
       </div>
-      <div class="skills-layout">
-        <div class="skill-group reveal"><h3>Programming</h3><p>Python · Dart · C / C++ · Java · SQL</p></div>
-        <div class="skill-group reveal"><h3>Machine learning</h3><p>Scikit-learn · Regression · Classification · Clustering · Model evaluation</p></div>
-        <div class="skill-group reveal"><h3>Deep learning</h3><p>CNN · RNN · TensorFlow · PyTorch</p></div>
-        <div class="skill-group reveal"><h3>AI, speech &amp; NLP</h3><p>NLP · Word2Vec · LLMs · Whisper · SpeechBrain</p></div>
-        <div class="skill-group reveal"><h3>Computer vision</h3><p>OpenCV · MediaPipe · Google ML Kit</p></div>
-        <div class="skill-group reveal"><h3>Engineering &amp; tools</h3><p>Flutter · Streamlit · Git / GitHub · MATLAB · Pytest</p></div>
-        <div class="skill-group reveal"><h3>Languages</h3><p>English (fluent) · French (fluent) · Spanish (intermediate)</p></div>
+    </section>
+
+    <section class="tulips-interlude" id="organic-interlude" aria-label="Cinematic tulips interlude">
+      <video
+        id="tulips-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+      >
+        <source src="tulips.mp4" type="video/mp4">
+      </video>
+      <div class="tulips-meta" aria-hidden="true">
+        <span>Organic interlude</span>
+        <span>Tulips · moving study</span>
       </div>
     </section>
 
@@ -1422,6 +1841,279 @@
           revealObserver.observe(element);
         });
       }
+
+      const tulipsVideo = document.querySelector('#tulips-video');
+      if (tulipsVideo) {
+        tulipsVideo.addEventListener('error', function () {
+          tulipsVideo.closest('.tulips-interlude')?.classList.add('is-fallback');
+        });
+
+        if (reducedMotion) {
+          tulipsVideo.pause();
+          tulipsVideo.removeAttribute('autoplay');
+        } else if ('IntersectionObserver' in window) {
+          const tulipsObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                tulipsVideo.play().catch(function () {
+                  tulipsVideo.pause();
+                });
+              } else {
+                tulipsVideo.pause();
+              }
+            });
+          }, { threshold: 0.18 });
+          tulipsObserver.observe(tulipsVideo.closest('.tulips-interlude'));
+        }
+      }
+
+      (function initializeToolkit() {
+        const categories = [
+          {
+            name: 'AI & Machine Learning',
+            short: 'AI & Machine Learning',
+            technologies: ['Scikit-learn', 'TensorFlow', 'PyTorch', 'Word2Vec', 'Whisper', 'SpeechBrain', 'LLMs']
+          },
+          {
+            name: 'Programming Languages',
+            short: 'Programming Languages',
+            technologies: ['Python', 'Java', 'C', 'C++', 'Dart', 'SQL']
+          },
+          {
+            name: 'Computer Vision',
+            short: 'Computer Vision',
+            technologies: ['OpenCV', 'MediaPipe', 'Google ML Kit', 'CNN']
+          },
+          {
+            name: 'Development & Frameworks',
+            short: 'Development & Frameworks',
+            technologies: ['Flutter', 'Flask', 'Streamlit', 'JavaFX', 'HTML', 'CSS', 'JavaScript']
+          },
+          {
+            name: 'Tools & Infrastructure',
+            short: 'Tools & Infrastructure',
+            technologies: ['Git', 'GitHub', 'VS Code', 'MATLAB', 'Arduino', 'Pytest', 'Folium', 'SciPy']
+          }
+        ];
+
+        const technologyCategory = {};
+        categories.forEach(function (category, categoryIndex) {
+          category.technologies.forEach(function (technology) {
+            technologyCategory[technology] = categoryIndex;
+          });
+        });
+
+        const supportNames = new Set(['C', 'C++', 'SQL', 'Google ML Kit', 'JavaFX', 'HTML', 'CSS', 'SciPy']);
+        const toolkit = document.querySelector('#toolkit');
+        if (!toolkit) return;
+
+        const categoryContainer = toolkit.querySelector('#toolkit-category-list');
+        const constellation = toolkit.querySelector('#toolkit-constellation');
+        const figure = toolkit.querySelector('#toolkit-figure');
+        let activeCategory = 0;
+        let resizeFrame = null;
+
+        categories.forEach(function (category, categoryIndex) {
+          const item = document.createElement('div');
+          item.className = 'toolkit-category' + (categoryIndex === 0 ? ' is-active' : '');
+
+          const button = document.createElement('button');
+          button.className = 'toolkit-category-button';
+          button.type = 'button';
+          button.setAttribute('aria-expanded', categoryIndex === 0 ? 'true' : 'false');
+          button.setAttribute('data-category', String(categoryIndex));
+          button.innerHTML =
+            '<span class="toolkit-square" aria-hidden="true"></span>' +
+            '<span class="toolkit-category-label"><span class="toolkit-number">0' + (categoryIndex + 1) + '</span><span>' + category.name + '</span></span>' +
+            '<span class="toolkit-toggle-mark" aria-hidden="true">+</span>';
+
+          const list = document.createElement('ul');
+          list.className = 'toolkit-category-list';
+          category.technologies.forEach(function (technology) {
+            const label = document.createElement('li');
+            label.textContent = technology;
+            list.appendChild(label);
+          });
+
+          item.appendChild(button);
+          item.appendChild(list);
+          categoryContainer.appendChild(item);
+        });
+
+        const nodes = [];
+        Object.keys(technologyCategory).forEach(function (technology, index) {
+          const categoryIndex = technologyCategory[technology];
+          const node = document.createElement('div');
+          node.className = 'toolkit-node';
+          node.dataset.category = String(categoryIndex);
+          if (supportNames.has(technology)) {
+            node.classList.add('is-supporting');
+          }
+          if (categoryIndex === 0) {
+            node.classList.add('is-selected');
+          }
+
+          const core = document.createElement('div');
+          core.className = 'toolkit-node-core';
+          core.textContent = technology;
+          node.appendChild(core);
+
+          const supporting = supportNames.has(technology);
+          const baseSize = supporting
+            ? 48
+            : technology.length > 15
+              ? 94
+              : technology.length > 10
+                ? 82
+                : 70;
+
+          node.style.setProperty('--node-size', baseSize + 'px');
+          node.style.setProperty('--node-font', baseSize >= 90 ? '0.68rem' : baseSize >= 70 ? '0.64rem' : '0.5rem');
+          node.style.setProperty('--float-duration', (5.8 + (index % 5) * 0.45) + 's');
+          node.style.setProperty('--float-delay', (-((index * 0.37) % 4)) + 's');
+          constellation.appendChild(node);
+          nodes.push({ element: node, name: technology, baseSize: baseSize, supporting: supporting });
+        });
+
+        function setActiveCategory(categoryIndex) {
+          activeCategory = categoryIndex;
+          const categoryItems = Array.from(categoryContainer.querySelectorAll('.toolkit-category'));
+          categoryItems.forEach(function (item, index) {
+            const active = index === categoryIndex;
+            item.classList.toggle('is-active', active);
+            item.querySelector('button').setAttribute('aria-expanded', active ? 'true' : 'false');
+          });
+
+          nodes.forEach(function (node) {
+            node.element.classList.toggle('is-selected', node.element.dataset.category === String(categoryIndex));
+          });
+
+          figure.textContent = 'FIG. 03.A — TOOLKIT — ' + categories[categoryIndex].name.toUpperCase();
+          arrangeNodes(categoryIndex);
+        }
+
+        categoryContainer.addEventListener('click', function (event) {
+          const button = event.target.closest('.toolkit-category-button');
+          if (!button) return;
+          setActiveCategory(Number(button.dataset.category));
+        });
+
+        function arrangeNodes(categoryIndex) {
+          const frame = constellation.getBoundingClientRect();
+          const width = frame.width;
+          const height = frame.height;
+          if (!width || !height) return;
+
+          const scale = width < 500
+            ? 0.62
+            : width < 720
+              ? 0.82
+              : Math.max(0.82, Math.min(1, width / 720));
+          const padding = Math.max(28, 34 * scale);
+          const centers = [
+            { x: 0.62, y: 0.38 },
+            { x: 0.38, y: 0.30 },
+            { x: 0.69, y: 0.66 },
+            { x: 0.36, y: 0.68 },
+            { x: 0.58, y: 0.52 }
+          ];
+          const center = centers[categoryIndex];
+          const targets = [];
+
+          nodes.forEach(function (node, index) {
+            const belongs = node.element.dataset.category === String(categoryIndex);
+            let x;
+            let y;
+            let size = node.baseSize * scale;
+
+            if (belongs) {
+              const selectedIndex = nodes.filter(function (candidate) {
+                return candidate.element.dataset.category === String(categoryIndex);
+              }).indexOf(node);
+              const selectedCount = nodes.filter(function (candidate) {
+                return candidate.element.dataset.category === String(categoryIndex);
+              }).length;
+              const angle = (selectedIndex / Math.max(1, selectedCount)) * Math.PI * 2 - Math.PI / 2;
+              const radius = selectedIndex === 0 ? 0 : (34 + (selectedIndex % 3) * 38) * scale;
+              x = center.x * width + Math.cos(angle) * radius;
+              y = center.y * height + Math.sin(angle) * radius * 0.72;
+            } else {
+              const neutralIndex = nodes.filter(function (candidate) {
+                return candidate.element.dataset.category !== String(categoryIndex);
+              }).indexOf(node);
+              const neutralCount = nodes.filter(function (candidate) {
+                return candidate.element.dataset.category !== String(categoryIndex);
+              }).length;
+              const angle = neutralIndex * 2.399963 + categoryIndex * 0.72;
+              const ring = 0.34 + (neutralIndex % 4) * 0.026;
+              x = width * 0.5 + Math.cos(angle) * width * ring;
+              y = height * 0.5 + Math.sin(angle) * height * (0.36 + (neutralIndex % 3) * 0.018);
+            }
+
+            size = node.supporting
+              ? Math.max(32, Math.min(42, size))
+              : Math.max(width < 500 ? 44 : 54, size);
+            const radius = size / 2;
+            x = Math.max(padding + radius, Math.min(width - padding - radius, x));
+            y = Math.max(padding + radius, Math.min(height - padding - radius, y));
+
+            node.element.style.setProperty('--node-size', size + 'px');
+            targets.push({ node: node, x: x, y: y, radius: radius });
+          });
+
+          for (let pass = 0; pass < 28; pass++) {
+            for (let i = 0; i < targets.length; i++) {
+              for (let j = i + 1; j < targets.length; j++) {
+                const a = targets[i];
+                const b = targets[j];
+                let dx = b.x - a.x;
+                let dy = b.y - a.y;
+                let distance = Math.sqrt(dx * dx + dy * dy) || 1;
+                const minimum = a.radius + b.radius + 7;
+                if (distance < minimum) {
+                  const push = (minimum - distance) * 0.5;
+                  dx /= distance;
+                  dy /= distance;
+                  a.x -= dx * push;
+                  a.y -= dy * push;
+                  b.x += dx * push;
+                  b.y += dy * push;
+                }
+              }
+            }
+
+            targets.forEach(function (target) {
+              target.x = Math.max(padding + target.radius, Math.min(width - padding - target.radius, target.x));
+              target.y = Math.max(padding + target.radius, Math.min(height - padding - target.radius, target.y));
+            });
+          }
+
+          targets.forEach(function (target) {
+            target.node.element.style.left = ((target.x / width) * 100) + '%';
+            target.node.element.style.top = ((target.y / height) * 100) + '%';
+          });
+        }
+
+        setActiveCategory(0);
+        resizeFrame = window.requestAnimationFrame(function () {
+          arrangeNodes(activeCategory);
+        });
+
+        if ('ResizeObserver' in window) {
+          const observer = new ResizeObserver(function () {
+            window.requestAnimationFrame(function () {
+              arrangeNodes(activeCategory);
+            });
+          });
+          observer.observe(constellation);
+        } else {
+          window.addEventListener('resize', function () {
+            window.requestAnimationFrame(function () {
+              arrangeNodes(activeCategory);
+            });
+          });
+        }
+      })();
 
       const form = document.querySelector('#contact-form');
       const formStatus = document.querySelector('#form-status');
